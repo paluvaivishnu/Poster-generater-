@@ -42,7 +42,7 @@ function getTemplateNodes(config: PosterConfig): any[] {
   return renderDynamicAI(config);
 }
 
-type DragRole = 'headline' | 'subtext' | 'cta';
+type DragRole = 'headline' | 'subtext' | 'cta' | 'ctaBg';
 
 const PosterCanvas = forwardRef<PosterCanvasRef, PosterCanvasProps>(
   ({ config, scale = 0.5, onPositionChange }, ref) => {

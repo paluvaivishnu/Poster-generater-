@@ -93,7 +93,7 @@ export default function LandingPage() {
               <div className="hidden md:block absolute top-6 left-[15%] right-[15%] h-0.5 bg-surface-800" />
               
               <div className="relative text-center">
-                <div className="w-12 h-12 rounded-full bg-brand-600 text-surface-100 font-bold text-xl flex items-center justify-center mx-auto mb-6 relative z-10 shadow-[0_0_20px_rgba(79,70,229,0.3)]">
+                <div className="w-12 h-12 rounded-full bg-brand-600 text-white font-bold text-xl flex items-center justify-center mx-auto mb-6 relative z-10 shadow-[0_0_20px_rgba(79,70,229,0.3)]">
                   1
                 </div>
                 <h3 className="text-xl font-bold mb-3">Setup Brand Kit</h3>
@@ -101,7 +101,7 @@ export default function LandingPage() {
               </div>
               
               <div className="relative text-center">
-                <div className="w-12 h-12 rounded-full bg-brand-600 text-surface-100 font-bold text-xl flex items-center justify-center mx-auto mb-6 relative z-10 shadow-[0_0_20px_rgba(79,70,229,0.3)]">
+                <div className="w-12 h-12 rounded-full bg-brand-600 text-white font-bold text-xl flex items-center justify-center mx-auto mb-6 relative z-10 shadow-[0_0_20px_rgba(79,70,229,0.3)]">
                   2
                 </div>
                 <h3 className="text-xl font-bold mb-3">Describe Campaign</h3>
@@ -109,7 +109,7 @@ export default function LandingPage() {
               </div>
               
               <div className="relative text-center">
-                <div className="w-12 h-12 rounded-full bg-brand-600 text-surface-100 font-bold text-xl flex items-center justify-center mx-auto mb-6 relative z-10 shadow-[0_0_20px_rgba(79,70,229,0.3)]">
+                <div className="w-12 h-12 rounded-full bg-brand-600 text-white font-bold text-xl flex items-center justify-center mx-auto mb-6 relative z-10 shadow-[0_0_20px_rgba(79,70,229,0.3)]">
                   3
                 </div>
                 <h3 className="text-xl font-bold mb-3">Export & Share</h3>

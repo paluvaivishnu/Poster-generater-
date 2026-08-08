@@ -218,8 +218,8 @@ export default function GeneratePage() {
                             boxShadow: '0 8px 30px rgba(124,58,237,0.3)',
                           }
                         : {
-                            background: 'rgba(30,30,40,0.7)',
-                            borderColor: '#3f3f46',
+                            background: 'var(--color-surface-850)',
+                            borderColor: 'var(--color-surface-800)',
                           }
                     }
                   >
@@ -227,7 +227,7 @@ export default function GeneratePage() {
                       <p className={`font-semibold text-base ${isSelected ? 'text-white' : 'text-surface-200'}`}>
                         {style.name}
                       </p>
-                      <p className={`text-sm mt-0.5 ${isSelected ? 'text-white/80' : 'text-surface-500'}`}>
+                      <p className={`text-sm mt-0.5 ${isSelected ? 'text-white/80' : 'text-surface-400'}`}>
                         {style.description}
                       </p>
                     </div>
@@ -237,7 +237,7 @@ export default function GeneratePage() {
                         <span className="text-white text-xs font-bold tracking-wide">SELECTED</span>
                       </div>
                     ) : (
-                      <div className="text-surface-500 text-xs font-bold tracking-wider ml-4 shrink-0 hover:text-surface-300">
+                      <div className="text-surface-400 text-xs font-bold tracking-wider ml-4 shrink-0 hover:text-surface-200">
                         SELECT
                       </div>
                     )}

@@ -224,9 +224,18 @@ export default function GeneratePage() {
                     }
                   >
                     <div>
-                      <p className={`font-semibold text-base ${isSelected ? 'text-white' : 'text-surface-200'}`}>
-                        {style.name}
-                      </p>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <p className={`font-semibold text-base ${isSelected ? 'text-white' : 'text-surface-200'}`}>
+                          {style.name}
+                        </p>
+                        <span
+                          className={`text-[11px] px-2 py-0.5 rounded-full font-medium ${
+                            isSelected ? 'bg-white/20 text-white' : 'bg-surface-800 text-brand-400 border border-surface-700'
+                          }`}
+                        >
+                          Aa {style.fontBadge}
+                        </span>
+                      </div>
                       <p className={`text-sm mt-0.5 ${isSelected ? 'text-white/80' : 'text-surface-400'}`}>
                         {style.description}
                       </p>

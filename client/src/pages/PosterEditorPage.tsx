@@ -951,6 +951,7 @@ export default function PosterEditorPage() {
                           <div className="flex-1 min-w-0">
                             <p className={`font-medium text-sm ${isSelected ? 'text-brand-300' : 'text-surface-200'}`}>{style.name}</p>
                             <p className="text-xs text-surface-500 truncate">{style.description}</p>
+                            <span className="text-[10px] text-brand-400 font-mono block mt-0.5">Aa {style.fontBadge}</span>
                           </div>
                           {isSelected && (
                             <div className="w-2 h-2 rounded-full bg-brand-400 shrink-0 ml-2" />
@@ -961,6 +962,26 @@ export default function PosterEditorPage() {
                         </button>
                       );
                     })}
+
+                    {/* Font Family controls */}
+                    <div className="pt-3 mt-3 border-t border-surface-800 space-y-2">
+                      <label className="text-xs text-surface-400 block font-medium">Headline Font Family</label>
+                      <select
+                        value={config.headlineFont || ''}
+                        onChange={(e) => updateConfig({ headlineFont: e.target.value || undefined })}
+                        className="input-field text-xs py-2"
+                      >
+                        <option value="">Auto (Default by Design Style)</option>
+                        <option value="'Outfit', 'Plus Jakarta Sans', sans-serif">Outfit (Modern Punchy)</option>
+                        <option value="'Playfair Display', 'Cinzel', Georgia, serif">Playfair Display (Luxury Serif)</option>
+                        <option value="'Syne', 'Plus Jakarta Sans', sans-serif">Syne (Creative Avant-Garde)</option>
+                        <option value="'Space Grotesk', 'DM Sans', sans-serif">Space Grotesk (Minimal Display)</option>
+                        <option value="'Montserrat', 'Helvetica Neue', sans-serif">Montserrat (Corporate Bold)</option>
+                        <option value="'Orbitron', 'Outfit', sans-serif">Orbitron (Futuristic Neon)</option>
+                        <option value="'Cinzel', Georgia, serif">Cinzel (Classic Royal Serif)</option>
+                        <option value="'Inter', sans-serif">Inter (Clean UI Sans)</option>
+                      </select>
+                    </div>
                   </div>
                 )}
               </div>

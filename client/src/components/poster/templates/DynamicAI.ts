@@ -2,9 +2,9 @@
 // BrandForge AI — Poster Template: Dynamic AI
 // ============================================
 // A fully fluid template that positions text dynamically based on the
-// design style, giving each style a unique, distinctive layout.
+// design style, giving each style a unique, distinctive layout and typography.
 
-import { CANVAS_WIDTH, CANVAS_HEIGHT, PosterConfig, getCanvasDimensions } from '../../../types';
+import { CANVAS_WIDTH, CANVAS_HEIGHT, PosterConfig, getCanvasDimensions, DESIGN_STYLES, DesignStyle } from '../../../types';
 
 function extractDiscount(text: string): { discount: string | null; rest: string } {
   const match = text.match(/(\d+%)/);
@@ -19,6 +19,14 @@ function extractDiscount(text: string): { discount: string | null; rest: string 
   return { discount: null, rest: text };
 }
 
+function getStyleFonts(config: PosterConfig, defaultStyle: DesignStyle) {
+  const currentStyleId = config.designStyle || defaultStyle;
+  const styleInfo = DESIGN_STYLES.find((s) => s.id === currentStyleId);
+  const headlineFont = config.headlineFont || styleInfo?.headlineFont || "'Outfit', 'Plus Jakarta Sans', sans-serif";
+  const bodyFont = config.bodyFont || styleInfo?.bodyFont || "'Inter', sans-serif";
+  return { headlineFont, bodyFont };
+}
+
 // ─────────────────────────────────────────────────────────────────
 // MODERN STYLE
 // Centered layout, bold large headline, purple-to-pink gradient bar,
@@ -26,6 +34,7 @@ function extractDiscount(text: string): { discount: string | null; rest: string 
 // ─────────────────────────────────────────────────────────────────
 function renderModern(config: PosterConfig, CW: number, CH: number) {
   const { brandKit, headline, subtext, cta, fontSize, showContacts } = config;
+  const { headlineFont, bodyFont } = getStyleFonts(config, 'modern');
   const primary = brandKit.primary_color || '#7c3aed';
   const nodes: any[] = [];
 
@@ -64,7 +73,7 @@ function renderModern(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: CW * 0.08, y: cy, width: CW * 0.84,
       text: brandKit.company_name.toUpperCase(),
-      fontSize: 20, fontFamily: 'Inter, Arial, sans-serif', fontStyle: '600',
+      fontSize: 20, fontFamily: bodyFont, fontStyle: '600',
       fill: 'rgba(255,255,255,0.7)', letterSpacing: 6, align: 'center',
     },
   });
@@ -92,7 +101,7 @@ function renderModern(config: PosterConfig, CW: number, CH: number) {
         x: CW * 0.08, y: cy, width: CW * 0.84,
         text: headlineRest.toUpperCase(),
         fontSize: Math.min(fontSize.headline * 0.75, 52),
-        fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+        fontFamily: headlineFont, fontStyle: '900',
         fill: '#ffffff', align: 'center', lineHeight: 1.1,
       },
     });
@@ -103,7 +112,7 @@ function renderModern(config: PosterConfig, CW: number, CH: number) {
       props: {
         x: CW * 0.08, y: cy, width: CW * 0.84,
         text: discount, fontSize: ds,
-        fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+        fontFamily: headlineFont, fontStyle: '900',
         fill: primary, align: 'center',
         shadowColor: primary, shadowBlur: 40,
       },
@@ -116,7 +125,7 @@ function renderModern(config: PosterConfig, CW: number, CH: number) {
         x: CW * 0.08, y: cy, width: CW * 0.84,
         text: headline.toUpperCase(),
         fontSize: fontSize.headline,
-        fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+        fontFamily: headlineFont, fontStyle: '900',
         fill: '#ffffff', align: 'center', lineHeight: 1.1,
         shadowColor: 'rgba(139,92,246,0.6)', shadowBlur: 20,
       },
@@ -131,7 +140,7 @@ function renderModern(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: CW * 0.1, y: cy, width: CW * 0.8,
       text: subtext, fontSize: fontSize.subtext,
-      fontFamily: 'Inter, Arial, sans-serif', fill: 'rgba(228,228,231,0.85)',
+      fontFamily: bodyFont, fill: 'rgba(228,228,231,0.85)',
       align: 'center', lineHeight: 1.45,
     },
   });
@@ -157,7 +166,7 @@ function renderModern(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: ctaX, y: cy + 17, width: ctaW,
       text: cta.toUpperCase(), fontSize: fontSize.cta,
-      fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+      fontFamily: headlineFont, fontStyle: '900',
       fill: '#ffffff', align: 'center', letterSpacing: 2,
     },
   });
@@ -172,7 +181,7 @@ function renderModern(config: PosterConfig, CW: number, CH: number) {
         props: {
           x: 40, y: CH - 44, width: CW - 80,
           text: parts.join('   •   '), fontSize: 14,
-          fontFamily: 'Inter, Arial, sans-serif', fontStyle: 'bold',
+          fontFamily: bodyFont, fontStyle: 'bold',
           fill: 'rgba(255,255,255,0.55)', align: 'center', letterSpacing: 2,
         },
       });
@@ -183,20 +192,20 @@ function renderModern(config: PosterConfig, CW: number, CH: number) {
 
 // ─────────────────────────────────────────────────────────────────
 // LUXURY STYLE
-// Bottom-left anchored. Gold serif decorators, thin gold lines,
-// all-caps elegant typography, warm dark overlay.
+// High-end serif headline, gold rules and accents, elegant layout.
 // ─────────────────────────────────────────────────────────────────
 function renderLuxury(config: PosterConfig, CW: number, CH: number) {
   const { brandKit, headline, subtext, cta, fontSize, showContacts } = config;
-  const gold = '#d4af37';
+  const { headlineFont, bodyFont } = getStyleFonts(config, 'luxury');
+  const gold = brandKit.primary_color || '#d4af37';
   const nodes: any[] = [];
 
-  // Dark warm vignette overlay
+  // Deep dark vignette overlay
   nodes.push({
     type: 'Rect',
     props: {
       x: 0, y: 0, width: CW, height: CH,
-      fillLinearGradientStartPoint: { x: 0, y: CH },
+      fillLinearGradientStartPoint: { x: 0, y: CH * 0.4 },
       fillLinearGradientEndPoint: { x: CW, y: 0 },
       fillLinearGradientColorStops: [0, 'rgba(5,2,0,0.85)', 0.6, 'rgba(5,2,0,0.5)', 1, 'rgba(5,2,0,0.15)'],
     },
@@ -218,12 +227,12 @@ function renderLuxury(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: 70, y: 90, width: CW * 0.55,
       text: brandKit.company_name.toUpperCase(),
-      fontSize: 18, fontFamily: 'Inter, Arial, sans-serif', fontStyle: '300',
+      fontSize: 18, fontFamily: bodyFont, fontStyle: '300',
       fill: gold, letterSpacing: 8, align: 'left',
     },
   });
 
-  // Bottom-left text block starts from 60% down
+  // Bottom-left text block starts from 58% down
   let cy = CH * 0.58;
 
   // Thin gold horizontal rule before headline
@@ -233,7 +242,7 @@ function renderLuxury(config: PosterConfig, CW: number, CH: number) {
   });
   cy += 22;
 
-  // Headline — large, white, serif-like
+  // Headline — large, elegant serif
   const { discount, rest: headlineRest } = extractDiscount(headline);
   nodes.push({
     type: 'Text', role: 'headline',
@@ -241,7 +250,7 @@ function renderLuxury(config: PosterConfig, CW: number, CH: number) {
       x: 70, y: cy, width: CW * 0.78,
       text: (discount ? headlineRest : headline).toUpperCase(),
       fontSize: fontSize.headline,
-      fontFamily: 'Outfit, Georgia, serif', fontStyle: '700',
+      fontFamily: headlineFont, fontStyle: '700',
       fill: '#ffffff', align: 'left', lineHeight: 1.1,
       letterSpacing: 1,
     },
@@ -254,7 +263,7 @@ function renderLuxury(config: PosterConfig, CW: number, CH: number) {
       props: {
         x: 70, y: cy, width: CW * 0.78,
         text: discount, fontSize: Math.min(fontSize.headline * 1.8, 100),
-        fontFamily: 'Outfit, Georgia, serif', fontStyle: '900',
+        fontFamily: headlineFont, fontStyle: '900',
         fill: gold, align: 'left', shadowColor: gold, shadowBlur: 30,
       },
     });
@@ -268,7 +277,7 @@ function renderLuxury(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: 70, y: cy, width: CW * 0.72,
       text: subtext, fontSize: fontSize.subtext,
-      fontFamily: 'Inter, Arial, sans-serif', fontStyle: '300',
+      fontFamily: bodyFont, fontStyle: '300',
       fill: 'rgba(255,255,255,0.75)', align: 'left', lineHeight: 1.5,
       letterSpacing: 0.5,
     },
@@ -291,7 +300,7 @@ function renderLuxury(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: 70, y: cy + 14, width: ctaW,
       text: cta.toUpperCase(), fontSize: fontSize.cta,
-      fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '600',
+      fontFamily: bodyFont, fontStyle: '600',
       fill: gold, align: 'center', letterSpacing: 3,
     },
   });
@@ -306,7 +315,7 @@ function renderLuxury(config: PosterConfig, CW: number, CH: number) {
         props: {
           x: 40, y: CH - 44, width: CW - 80,
           text: parts.join('   •   '), fontSize: 13,
-          fontFamily: 'Inter, Arial, sans-serif', fontStyle: '300',
+          fontFamily: bodyFont, fontStyle: '300',
           fill: 'rgba(212,175,55,0.6)', align: 'center', letterSpacing: 2,
         },
       });
@@ -317,11 +326,11 @@ function renderLuxury(config: PosterConfig, CW: number, CH: number) {
 
 // ─────────────────────────────────────────────────────────────────
 // CREATIVE STYLE
-// Split-right layout. Oversized vivid headline, diagonal accent
-// shape, expressive staggered text arrangement.
+// Expressive avant-garde typography (Syne), vivid colors, staggered layout.
 // ─────────────────────────────────────────────────────────────────
 function renderCreative(config: PosterConfig, CW: number, CH: number) {
   const { brandKit, headline, subtext, cta, fontSize, showContacts } = config;
+  const { headlineFont, bodyFont } = getStyleFonts(config, 'creative');
   const primary = brandKit.primary_color || '#059669';
   const accent = '#f59e0b';
   const nodes: any[] = [];
@@ -359,7 +368,7 @@ function renderCreative(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: 82, y: 72, width: CW * 0.6,
       text: brandKit.company_name.toUpperCase(),
-      fontSize: 22, fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '800',
+      fontSize: 22, fontFamily: headlineFont, fontStyle: '800',
       fill: '#ffffff', letterSpacing: 3, align: 'left',
     },
   });
@@ -381,13 +390,13 @@ function renderCreative(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: textX, y: cy + 5, width: 110,
       text: 'NEW DROP', fontSize: 13,
-      fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '800',
+      fontFamily: bodyFont, fontStyle: '800',
       fill: '#000000', align: 'center', letterSpacing: 1,
     },
   });
   cy += 46;
 
-  // Headline — huge, expressive
+  // Headline — expressive avant-garde font
   const { discount, rest: headlineRest } = extractDiscount(headline);
   nodes.push({
     type: 'Text', role: 'headline',
@@ -395,7 +404,7 @@ function renderCreative(config: PosterConfig, CW: number, CH: number) {
       x: textX, y: cy, width: CW * 0.86,
       text: (discount ? headlineRest : headline).toUpperCase(),
       fontSize: Math.min(fontSize.headline * 1.05, 78),
-      fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+      fontFamily: headlineFont, fontStyle: '800',
       fill: '#ffffff', align: 'left', lineHeight: 1.0,
       shadowColor: 'rgba(0,0,0,0.7)', shadowBlur: 10,
     },
@@ -408,7 +417,7 @@ function renderCreative(config: PosterConfig, CW: number, CH: number) {
       props: {
         x: textX, y: cy, width: CW * 0.86,
         text: discount, fontSize: Math.min(fontSize.headline * 2.2, 130),
-        fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+        fontFamily: headlineFont, fontStyle: '800',
         fill: primary, align: 'left',
         shadowColor: primary, shadowBlur: 35,
       },
@@ -416,7 +425,7 @@ function renderCreative(config: PosterConfig, CW: number, CH: number) {
     cy += Math.min(fontSize.headline * 2.2, 130) * 0.85;
   }
 
-  // Wavy accent line (simulated with thin rects)
+  // Wavy accent line
   for (let i = 0; i < 3; i++) {
     nodes.push({
       type: 'Rect',
@@ -435,7 +444,7 @@ function renderCreative(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: textX, y: cy, width: CW * 0.75,
       text: subtext, fontSize: fontSize.subtext,
-      fontFamily: 'Inter, Arial, sans-serif', fill: 'rgba(228,228,231,0.9)',
+      fontFamily: bodyFont, fill: 'rgba(228,228,231,0.9)',
       align: 'left', lineHeight: 1.4,
     },
   });
@@ -457,7 +466,7 @@ function renderCreative(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: textX, y: cy + 15, width: ctaW,
       text: cta.toUpperCase(), fontSize: fontSize.cta,
-      fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+      fontFamily: headlineFont, fontStyle: '800',
       fill: '#ffffff', align: 'center', letterSpacing: 2,
     },
   });
@@ -472,7 +481,7 @@ function renderCreative(config: PosterConfig, CW: number, CH: number) {
         props: {
           x: 40, y: CH - 44, width: CW - 80,
           text: parts.join('   •   '), fontSize: 14,
-          fontFamily: 'Inter, Arial, sans-serif', fontStyle: 'bold',
+          fontFamily: bodyFont, fontStyle: 'bold',
           fill: 'rgba(255,255,255,0.5)', align: 'center', letterSpacing: 2,
         },
       });
@@ -483,11 +492,11 @@ function renderCreative(config: PosterConfig, CW: number, CH: number) {
 
 // ─────────────────────────────────────────────────────────────────
 // MINIMAL STYLE
-// Clean left-aligned with generous white space. Thin underline,
-// light grey text, restrained palette.
+// Architectural font pairing (Space Grotesk + DM Sans), clean white space.
 // ─────────────────────────────────────────────────────────────────
 function renderMinimal(config: PosterConfig, CW: number, CH: number) {
   const { brandKit, headline, subtext, cta, fontSize, showContacts } = config;
+  const { headlineFont, bodyFont } = getStyleFonts(config, 'minimal');
   const primary = brandKit.primary_color || '#475569';
   const nodes: any[] = [];
 
@@ -500,7 +509,7 @@ function renderMinimal(config: PosterConfig, CW: number, CH: number) {
     },
   });
 
-  // Bottom white panel
+  // Bottom dark gradient panel
   const panelH = CH * 0.48;
   nodes.push({
     type: 'Rect',
@@ -518,7 +527,7 @@ function renderMinimal(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: 72, y: 74, width: CW * 0.7,
       text: brandKit.company_name,
-      fontSize: 20, fontFamily: 'Inter, Arial, sans-serif', fontStyle: '400',
+      fontSize: 20, fontFamily: bodyFont, fontStyle: '400',
       fill: 'rgba(255,255,255,0.85)', letterSpacing: 5, align: 'left',
     },
   });
@@ -532,7 +541,7 @@ function renderMinimal(config: PosterConfig, CW: number, CH: number) {
   });
   cy += 22;
 
-  // Headline — clean, not all-caps
+  // Headline — clean Space Grotesk
   const { discount, rest: headlineRest } = extractDiscount(headline);
   nodes.push({
     type: 'Text', role: 'headline',
@@ -540,7 +549,7 @@ function renderMinimal(config: PosterConfig, CW: number, CH: number) {
       x: 72, y: cy, width: CW - 144,
       text: discount ? headlineRest : headline,
       fontSize: fontSize.headline,
-      fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '700',
+      fontFamily: headlineFont, fontStyle: '600',
       fill: '#ffffff', align: 'left', lineHeight: 1.15,
     },
   });
@@ -552,7 +561,7 @@ function renderMinimal(config: PosterConfig, CW: number, CH: number) {
       props: {
         x: 72, y: cy, width: CW - 144,
         text: discount, fontSize: Math.min(fontSize.headline * 1.5, 90),
-        fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+        fontFamily: headlineFont, fontStyle: '700',
         fill: primary, align: 'left',
       },
     });
@@ -565,13 +574,13 @@ function renderMinimal(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: 72, y: cy, width: CW * 0.75,
       text: subtext, fontSize: fontSize.subtext,
-      fontFamily: 'Inter, Arial, sans-serif', fontStyle: '300',
+      fontFamily: bodyFont, fontStyle: '400',
       fill: 'rgba(200,200,210,0.8)', align: 'left', lineHeight: 1.55,
     },
   });
   cy += fontSize.subtext * 2.8;
 
-  // CTA — underline-style (text only, no pill)
+  // CTA — underline-style
   const ctaW = Math.min(cta.length * (fontSize.cta * 0.6) + 60, CW * 0.6);
   const ctaH = fontSize.cta + 20;
   nodes.push({
@@ -587,7 +596,7 @@ function renderMinimal(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: 72, y: cy + 10, width: ctaW,
       text: cta, fontSize: fontSize.cta,
-      fontFamily: 'Inter, Arial, sans-serif', fontStyle: '500',
+      fontFamily: bodyFont, fontStyle: '500',
       fill: '#ffffff', align: 'center', letterSpacing: 1,
     },
   });
@@ -602,7 +611,7 @@ function renderMinimal(config: PosterConfig, CW: number, CH: number) {
         props: {
           x: 40, y: CH - 40, width: CW - 80,
           text: parts.join('   •   '), fontSize: 13,
-          fontFamily: 'Inter, Arial, sans-serif', fontStyle: '300',
+          fontFamily: bodyFont, fontStyle: '300',
           fill: 'rgba(255,255,255,0.4)', align: 'center', letterSpacing: 2,
         },
       });
@@ -613,11 +622,11 @@ function renderMinimal(config: PosterConfig, CW: number, CH: number) {
 
 // ─────────────────────────────────────────────────────────────────
 // CORPORATE STYLE
-// Top-anchored structured layout, blue-toned, professional grid,
-// structured two-column feel.
+// Montserrat headline, structured corporate grid & blue accents.
 // ─────────────────────────────────────────────────────────────────
 function renderCorporate(config: PosterConfig, CW: number, CH: number) {
   const { brandKit, headline, subtext, cta, fontSize, showContacts } = config;
+  const { headlineFont, bodyFont } = getStyleFonts(config, 'corporate');
   const blue = brandKit.primary_color || '#1d4ed8';
   const nodes: any[] = [];
 
@@ -647,7 +656,7 @@ function renderCorporate(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: 64, y: 30, width: CW * 0.7,
       text: brandKit.company_name.toUpperCase(),
-      fontSize: 26, fontFamily: 'Inter, Arial, sans-serif', fontStyle: '700',
+      fontSize: 26, fontFamily: headlineFont, fontStyle: '800',
       fill: '#ffffff', letterSpacing: 3, align: 'left',
     },
   });
@@ -666,7 +675,7 @@ function renderCorporate(config: PosterConfig, CW: number, CH: number) {
 
   let cy = CH * 0.3;
 
-  // Headline — structured, left-anchored
+  // Headline — structured Montserrat
   const { discount, rest: headlineRest } = extractDiscount(headline);
   nodes.push({
     type: 'Text', role: 'headline',
@@ -674,7 +683,7 @@ function renderCorporate(config: PosterConfig, CW: number, CH: number) {
       x: 88, y: cy, width: CW - 152,
       text: (discount ? headlineRest : headline).toUpperCase(),
       fontSize: fontSize.headline,
-      fontFamily: 'Inter, Arial, sans-serif', fontStyle: '800',
+      fontFamily: headlineFont, fontStyle: '800',
       fill: '#ffffff', align: 'left', lineHeight: 1.1,
       letterSpacing: 0.5,
     },
@@ -687,7 +696,7 @@ function renderCorporate(config: PosterConfig, CW: number, CH: number) {
       props: {
         x: 88, y: cy, width: CW - 152,
         text: discount, fontSize: Math.min(fontSize.headline * 1.6, 90),
-        fontFamily: 'Inter, Arial, sans-serif', fontStyle: '900',
+        fontFamily: headlineFont, fontStyle: '900',
         fill: blue, align: 'left', shadowColor: blue, shadowBlur: 20,
       },
     });
@@ -701,7 +710,7 @@ function renderCorporate(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: 88, y: cy, width: CW - 152,
       text: subtext, fontSize: fontSize.subtext,
-      fontFamily: 'Inter, Arial, sans-serif', fontStyle: '400',
+      fontFamily: bodyFont, fontStyle: '400',
       fill: 'rgba(200,210,230,0.85)', align: 'left', lineHeight: 1.5,
     },
   });
@@ -719,7 +728,7 @@ function renderCorporate(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: 88, y: cy + 14, width: ctaW,
       text: cta.toUpperCase(), fontSize: fontSize.cta,
-      fontFamily: 'Inter, Arial, sans-serif', fontStyle: '700',
+      fontFamily: headlineFont, fontStyle: '700',
       fill: '#ffffff', align: 'center', letterSpacing: 2,
     },
   });
@@ -739,7 +748,7 @@ function renderCorporate(config: PosterConfig, CW: number, CH: number) {
         props: {
           x: 40, y: CH - 38, width: CW - 80,
           text: parts.join('   |   '), fontSize: 14,
-          fontFamily: 'Inter, Arial, sans-serif', fontStyle: '500',
+          fontFamily: bodyFont, fontStyle: '500',
           fill: 'rgba(180,200,230,0.7)', align: 'center', letterSpacing: 2,
         },
       });
@@ -750,11 +759,11 @@ function renderCorporate(config: PosterConfig, CW: number, CH: number) {
 
 // ─────────────────────────────────────────────────────────────────
 // PREMIUM STYLE
-// Dark neon centered. Glowing neon headline, electric CTA,
-// scanline texture overlay (simulated), futuristic feel.
+// Orbitron futuristic tech headline, dark neon glows.
 // ─────────────────────────────────────────────────────────────────
 function renderPremium(config: PosterConfig, CW: number, CH: number) {
   const { brandKit, headline, subtext, cta, fontSize, showContacts } = config;
+  const { headlineFont, bodyFont } = getStyleFonts(config, 'premium');
   const neon = brandKit.primary_color || '#7c3aed';
   const neon2 = '#be185d';
   const nodes: any[] = [];
@@ -796,14 +805,14 @@ function renderPremium(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: CW / 2 - 90, y: 83, width: 180,
       text: brandKit.company_name.toUpperCase(),
-      fontSize: 14, fontFamily: 'Inter, Arial, sans-serif', fontStyle: '600',
+      fontSize: 14, fontFamily: bodyFont, fontStyle: '600',
       fill: 'rgba(255,255,255,0.8)', letterSpacing: 4, align: 'center',
     },
   });
 
   let cy = CH * 0.28;
 
-  // HEADLINE — neon glow
+  // HEADLINE — futuristic Orbitron font
   const { discount, rest: headlineRest } = extractDiscount(headline);
   if (discount) {
     nodes.push({
@@ -812,7 +821,7 @@ function renderPremium(config: PosterConfig, CW: number, CH: number) {
         x: CW * 0.06, y: cy, width: CW * 0.88,
         text: headlineRest.toUpperCase(),
         fontSize: Math.min(fontSize.headline * 0.8, 56),
-        fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+        fontFamily: headlineFont, fontStyle: '800',
         fill: '#ffffff', align: 'center', lineHeight: 1.1,
         shadowColor: neon, shadowBlur: 28,
       },
@@ -825,7 +834,7 @@ function renderPremium(config: PosterConfig, CW: number, CH: number) {
       props: {
         x: CW * 0.06, y: cy, width: CW * 0.88,
         text: discount, fontSize: ds,
-        fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+        fontFamily: headlineFont, fontStyle: '900',
         fill: neon, align: 'center',
         shadowColor: neon, shadowBlur: 50,
       },
@@ -838,7 +847,7 @@ function renderPremium(config: PosterConfig, CW: number, CH: number) {
         x: CW * 0.06, y: cy, width: CW * 0.88,
         text: headline.toUpperCase(),
         fontSize: fontSize.headline,
-        fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+        fontFamily: headlineFont, fontStyle: '800',
         fill: '#ffffff', align: 'center', lineHeight: 1.0,
         shadowColor: neon, shadowBlur: 35,
       },
@@ -866,7 +875,7 @@ function renderPremium(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: CW * 0.1, y: cy, width: CW * 0.8,
       text: subtext, fontSize: fontSize.subtext,
-      fontFamily: 'Inter, Arial, sans-serif',
+      fontFamily: bodyFont,
       fill: 'rgba(200,190,230,0.85)', align: 'center', lineHeight: 1.45,
     },
   });
@@ -893,7 +902,7 @@ function renderPremium(config: PosterConfig, CW: number, CH: number) {
     props: {
       x: ctaX, y: cy + 18, width: ctaW,
       text: cta.toUpperCase(), fontSize: fontSize.cta,
-      fontFamily: 'Outfit, Arial, sans-serif', fontStyle: '900',
+      fontFamily: headlineFont, fontStyle: '800',
       fill: '#ffffff', align: 'center', letterSpacing: 3,
       shadowColor: '#ffffff', shadowBlur: 8,
     },
@@ -909,7 +918,7 @@ function renderPremium(config: PosterConfig, CW: number, CH: number) {
         props: {
           x: 40, y: CH - 44, width: CW - 80,
           text: parts.join('   •   '), fontSize: 14,
-          fontFamily: 'Inter, Arial, sans-serif', fontStyle: '600',
+          fontFamily: bodyFont, fontStyle: '600',
           fill: `${neon}99`, align: 'center', letterSpacing: 2,
         },
       });

@@ -54,6 +54,9 @@ export interface DesignStyleInfo {
   gradient: string;       // CSS gradient for the selected state
   overlayOpacity: number; // How dark the overlay on the AI background
   overlayColor: string;   // Overlay tint color
+  headlineFont: string;   // Signature headline font family
+  bodyFont: string;       // Signature subtext font family
+  fontBadge: string;      // Human-readable font name badge
 }
 
 export const DESIGN_STYLES: DesignStyleInfo[] = [
@@ -64,6 +67,9 @@ export const DESIGN_STYLES: DesignStyleInfo[] = [
     gradient: 'linear-gradient(135deg, #7c3aed, #ec4899)',
     overlayOpacity: 0.45,
     overlayColor: 'rgba(0,0,0,0.45)',
+    headlineFont: "'Outfit', 'Plus Jakarta Sans', sans-serif",
+    bodyFont: "'Inter', sans-serif",
+    fontBadge: 'Outfit + Inter',
   },
   {
     id: 'luxury',
@@ -72,6 +78,9 @@ export const DESIGN_STYLES: DesignStyleInfo[] = [
     gradient: 'linear-gradient(135deg, #92400e, #d97706)',
     overlayOpacity: 0.55,
     overlayColor: 'rgba(10,5,0,0.55)',
+    headlineFont: "'Playfair Display', 'Cinzel', Georgia, serif",
+    bodyFont: "'Montserrat', sans-serif",
+    fontBadge: 'Playfair Display + Montserrat',
   },
   {
     id: 'creative',
@@ -80,6 +89,9 @@ export const DESIGN_STYLES: DesignStyleInfo[] = [
     gradient: 'linear-gradient(135deg, #059669, #0891b2)',
     overlayOpacity: 0.4,
     overlayColor: 'rgba(0,10,15,0.4)',
+    headlineFont: "'Syne', 'Plus Jakarta Sans', sans-serif",
+    bodyFont: "'Plus Jakarta Sans', sans-serif",
+    fontBadge: 'Syne + Jakarta Sans',
   },
   {
     id: 'minimal',
@@ -88,6 +100,9 @@ export const DESIGN_STYLES: DesignStyleInfo[] = [
     gradient: 'linear-gradient(135deg, #475569, #94a3b8)',
     overlayOpacity: 0.5,
     overlayColor: 'rgba(255,255,255,0.08)',
+    headlineFont: "'Space Grotesk', 'DM Sans', sans-serif",
+    bodyFont: "'DM Sans', sans-serif",
+    fontBadge: 'Space Grotesk + DM Sans',
   },
   {
     id: 'corporate',
@@ -96,6 +111,9 @@ export const DESIGN_STYLES: DesignStyleInfo[] = [
     gradient: 'linear-gradient(135deg, #1d4ed8, #0369a1)',
     overlayOpacity: 0.5,
     overlayColor: 'rgba(0,10,30,0.5)',
+    headlineFont: "'Montserrat', 'Helvetica Neue', sans-serif",
+    bodyFont: "'Inter', sans-serif",
+    fontBadge: 'Montserrat + Inter',
   },
   {
     id: 'premium',
@@ -104,6 +122,9 @@ export const DESIGN_STYLES: DesignStyleInfo[] = [
     gradient: 'linear-gradient(135deg, #4f46e5, #7c3aed, #be185d)',
     overlayOpacity: 0.6,
     overlayColor: 'rgba(5,0,15,0.6)',
+    headlineFont: "'Orbitron', 'Outfit', sans-serif",
+    bodyFont: "'Inter', sans-serif",
+    fontBadge: 'Orbitron + Inter',
   },
 ];
 
@@ -179,6 +200,8 @@ export interface PosterConfig {
   templateId: string;
   designStyle?: DesignStyle;
   aspectRatio?: AspectRatioId;
+  headlineFont?: string;
+  bodyFont?: string;
   fontSize: {
     headline: number;
     subtext: number;
